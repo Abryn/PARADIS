@@ -21,6 +21,10 @@ class Operation implements Runnable {
 		account.setBalance(balance);
 	}
 
+	int getAccountId() {
+		return ACCOUNT_ID;
+	}
+
 	// Method used in Transaction.java to get the account lock and sort by account ID
 	// Worse encapsulation but simpler and works if handled correctly (could use a map with ID and lock in Transaction)
 	protected Account getAccount() {
