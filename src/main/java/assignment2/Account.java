@@ -9,7 +9,7 @@ class Account {
 	private final int ID;
 	private int balance;
 
-	// Lock handled by other classes
+	// Lock handled by other classes (Transaction and Operation)
 	private final ReentrantLock lock = new ReentrantLock();
 	
 	// Constructor.
@@ -33,7 +33,7 @@ class Account {
 	}
 
 	// Exposed lock handled by caller, must get the lock before balance operations
-	ReentrantLock getLock() {
+	protected ReentrantLock getLock() {
 		return lock;
 	}
 }

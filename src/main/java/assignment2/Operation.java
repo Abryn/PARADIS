@@ -12,18 +12,27 @@ class Operation implements Runnable {
 		AMOUNT = amount;
 		account = bank.getAccount(ACCOUNT_ID);
 	}
-	
-	int getAccountId() {
-		return ACCOUNT_ID;
+
+	// Method for updating balance without locking, must be handled by the caller by using getAccount and locking
+	// that way, this is to avoid double locking in Transaction.java even though the lock is reentrant
+	protected void updateBalance() {
+		int balance = account.getBalance();
+		balance = balance + AMOUNT;
+		account.setBalance(balance);
+	}
+
+	// Method used in Transaction.java to get the account lock and sort by account ID
+	// Worse encapsulation but simpler and works if handled correctly (could use a map with ID and lock in Transaction)
+	protected Account getAccount() {
+		return account;
 	}
 	
 	public void run() {
-		// Get the lock to ensure atomic account balance operations
+		// Only used for single operations
+		// Get the lock to ensure atomic account balance update
 		account.getLock().lock();
 		try {
-			int balance = account.getBalance();
-			balance = balance + AMOUNT;
-			account.setBalance(balance);
+			updateBalance();
 		} finally {
 			account.getLock().unlock();
 		}
