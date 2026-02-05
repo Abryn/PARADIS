@@ -1,4 +1,4 @@
-// Peter Idestam-Almquist, 2023-02-26.
+// Albin Phillips
 
 package assignment2;
 
@@ -18,8 +18,14 @@ class Operation implements Runnable {
 	}
 	
 	public void run() {
-		int balance = account.getBalance();
-		balance = balance + AMOUNT;
-		account.setBalance(balance);
+		// Get the lock to ensure atomic account balance operations
+		account.getLock().lock();
+		try {
+			int balance = account.getBalance();
+			balance = balance + AMOUNT;
+			account.setBalance(balance);
+		} finally {
+			account.getLock().unlock();
+		}
 	}
 }	
