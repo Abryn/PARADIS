@@ -16,4 +16,5 @@ but only there will only be 3 concurrent stages working.
 
 In program2 all downloads will be done in parallel before a single webPage is analyzed. This is different from program1
 where webPages are at all three stages simultaneously. Once all webPages are downloaded will the analyzing begin in
-parallel, and then after that the categorizing. The stages don't overlap like they do in program1.
+parallel, and then after that the categorizing. The stages don't overlap like they do in program1 instead, each stage
+must completely finish before moving to the next stage.
