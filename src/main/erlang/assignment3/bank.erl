@@ -17,7 +17,6 @@ call(Pid, Function) ->
         exit:_ -> no_bank
     end.
     
-    
 balance(Pid, Who) -> 
     call(Pid, {balance, Who}).
 
